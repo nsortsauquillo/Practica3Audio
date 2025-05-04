@@ -10,10 +10,36 @@ public class FirstPersonAudio : MonoBehaviour
     public AudioSource stepAudio;
     public AudioSource runningAudio;
     [Tooltip("Minimum velocity for moving audio to play")]
-    /// <summary> "Minimum velocity for moving audio to play" </summary>
     public float velocityThreshold = .01f;
+
+    // AÑADIR ESTAS NUEVAS VARIABLES ▼
+    [Header("Surface Sounds")]
+    [SerializeField] private AudioClip[] defaultStepSFX;
+    [SerializeField] private AudioClip[] woodStepSFX;
+    private string currentSurfaceTag;
+
+    AudioClip[] GetStepClips()
+{
+    if (groundCheck.groundObject == null)
+        return defaultStepSFX;
+
+    if (groundCheck.groundObject.CompareTag("Ground"))
+    {
+        return defaultStepSFX;
+    }
+    else if (groundCheck.groundObject.CompareTag("Wood"))
+    {
+        return woodStepSFX;
+    }
+    else
+    {
+        return defaultStepSFX;
+    }
+}
+
     Vector2 lastCharacterPosition;
     Vector2 CurrentCharacterPosition => new Vector2(character.transform.position.x, character.transform.position.z);
+
 
     [Header("Landing")]
     public AudioSource landingAudio;
@@ -64,6 +90,10 @@ public class FirstPersonAudio : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (groundCheck.isGrounded && groundCheck.groundObject != null)
+        {
+            currentSurfaceTag = groundCheck.groundObject.tag;
+        }
         // Play moving audio if the character is moving and on the ground.
         float velocity = Vector3.Distance(CurrentCharacterPosition, lastCharacterPosition);
         if (velocity >= velocityThreshold && groundCheck && groundCheck.isGrounded)
@@ -88,6 +118,10 @@ public class FirstPersonAudio : MonoBehaviour
 
         // Remember lastCharacterPosition.
         lastCharacterPosition = CurrentCharacterPosition;
+
+         AudioClip[] GetStepClips(){
+        return currentSurfaceTag == "Wood" ? woodStepSFX : defaultStepSFX;
+        }
     }
 
 
@@ -106,7 +140,7 @@ public class FirstPersonAudio : MonoBehaviour
         // Play audioToPlay if it was not playing.
         if (audioToPlay && !audioToPlay.isPlaying)
         {
-            audioToPlay.Play();
+            PlayRandomClip(audioToPlay, audioToPlay == stepAudio ? GetStepClips() : new AudioClip[0]);
         }
     }
 

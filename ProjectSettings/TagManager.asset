@@ -3,7 +3,11 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Wood
+  - PisoArriba
+  - PisoAbajo
+  - Ground
   layers:
   - Default
   - TransparentFX
