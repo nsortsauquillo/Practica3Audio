@@ -8786,7 +8786,7 @@ PrefabInstance:
     - target: {fileID: 687180949, guid: 11aaea5348574644a9eb4f4504fcce3f, type: 3}
       propertyPath: woodStepSFX.Array.data[0]
       value: 
-      objectReference: {fileID: 8300000, guid: 42bf7c40cf8cbb64498370fa7aa95f7d, type: 3}
+      objectReference: {fileID: 8300000, guid: f858e99d352855a4a950b6dc4d6685b3, type: 3}
     - target: {fileID: 687180949, guid: 11aaea5348574644a9eb4f4504fcce3f, type: 3}
       propertyPath: defaultStepSFX.Array.data[0]
       value: 
